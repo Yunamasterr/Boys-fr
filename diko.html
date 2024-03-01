@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Boys Page</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #3498db, #e74c3c, #3498db, #e74c3c);
+            background-size: 400% 400%;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .password-container,
+        .welcome-container,
+        .account-container,
+        .chat-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #fff;
+        }
+
+        input,
+        button {
+            margin-bottom: 10px;
+            padding: 5px;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .welcome-container,
+        .chat-container {
+            display: none;
+            text-align: center;
+            padding-top: 20%;
+        }
+
+        #chatMessages {
+            margin-top: 20px;
+            max-height: 60%;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Password input -->
+<div class="password-container">
+    <label for="passwordInput">Enter Password: </label>
+    <input type="password" id="passwordInput" required>
+    <button id="passwordSubmit" onclick="checkPassword()">Submit</button>
+</div>
+
+<!-- Welcome container -->
+<div class="welcome-container" id="welcomeContainer">
+    <h1>Welcome to The Boys Page</h1>
+    <div class="next-container">
+        <button class="next-btn" onclick="goToAccountPage()">Next</button>
+    </div>
+</div>
+
+<!-- Account creation container -->
+<div class="account-container" id="accountContainer">
+    <h1>Create Your Account</h1>
+    <label for="usernameInput">Choose a username: </label>
+    <input type="text" id="usernameInput" required>
+    <button onclick="createAccount()">Create Account</button>
+    <div class="next-container">
+        <button class="next-btn" onclick="goToChatPage()">Next</button>
+    </div>
+</div>
+
+<!-- Chat container -->
+<div class="chat-container" id="chatContainer">
+    <h1>Welcome to The Boys Chat</h1>
+    <div id="chatMessages"></div>
+    <input type="text" id="chatInput" placeholder="Type your message...">
+    <button id="chatSubmit" onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+    let username = "";
+
+    function checkPassword() {
+        const passwordInput = document.getElementById("passwordInput").value;
+
+        if (passwordInput === "URnegs") {
+            document.querySelector(".password-container").style.display = "none";
+            document.getElementById("welcomeContainer").style.display = "block";
+        } else {
+            alert("Incorrect password. Please try again.");
+        }
+    }
+
+    function goToAccountPage() {
+        document.getElementById("welcomeContainer").style.display = "none";
+        document.getElementById("accountContainer").style.display = "block";
+    }
+
+    function createAccount() {
+        username = document.getElementById("usernameInput").value;
+        alert(`Account created for ${username}.`);
+    }
+
+    function goToChatPage() {
+        document.getElementById("accountContainer").style.display = "none";
+        document.getElementById("chatContainer").style.display = "block";
+        displayMessage(`Welcome, ${username}!`);
+    }
+
+    function sendMessage() {
+        const chatInput = document.getElementById("chatInput").value;
+        if (chatInput.trim() !== "") {
+            displayMessage(`<strong>${username}:</strong> ${chatInput}`);
+            document.getElementById("chatInput").value = "";
+        }
+    }
+
+    function displayMessage(message) {
+        const chatMessages = document.getElementById("chatMessages");
+        const newMessage = document.createElement("div");
+        newMessage.innerHTML = message;
+        chatMessages.appendChild(newMessage);
+        chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to the bottom
+    }
+</script>
+
+</body>
+</html>
